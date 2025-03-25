@@ -8,7 +8,7 @@ public class PluginHelper : MonoBehaviour
     [SerializeField] private Text textResult;
 
     [DllImport("__Internal")]
-    private static extern int _addTwoNumberInIOS(int a, int b);
+    private static extern int _addTwoNumberInVisionOS(int a, int b);
 
     void Start()
     {
@@ -17,7 +17,7 @@ public class PluginHelper : MonoBehaviour
 
     public void AddTwoNumber()
     {
-        int result = _addTwoNumberInIOS(10, 5);
+        int result = _addTwoNumberInVisionOS(10, 5);
         textResult.text = "10 + 5  is : " + result;
     }
 }

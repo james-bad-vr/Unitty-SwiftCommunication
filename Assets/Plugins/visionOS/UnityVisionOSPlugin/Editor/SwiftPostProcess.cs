@@ -17,7 +17,7 @@ public static class SwiftPostProcess
     {
         if (buildTarget == BuildTarget.iOS)
         {
-            var projPath = buildPath + "/Unity-Iphone.xcodeproj/project.pbxproj";
+            var projPath = buildPath + "/Unity-VisionOS.xcodeproj/project.pbxproj";
             var proj = new PBXProject();
             proj.ReadFromFile(projPath);
 
@@ -28,9 +28,9 @@ public static class SwiftPostProcess
 
 
 
-            proj.SetBuildProperty(targetGuid, "SWIFT_OBJC_BRIDGING_HEADER", "Libraries/Plugins/iOS/UnityIosPlugin/Source/UnityPlugin-Bridging-Header.h");
+            proj.SetBuildProperty(targetGuid, "SWIFT_OBJC_BRIDGING_HEADER", "Libraries/Plugins/visionOS/UnityVisionOSPlugin/Source/UnityPlugin-Bridging-Header.h");
 
-            proj.SetBuildProperty(targetGuid, "SWIFT_OBJC_INTERFACE_HEADER_NAME", "UnityIosPlugin-Swift.h");
+            proj.SetBuildProperty(targetGuid, "SWIFT_OBJC_INTERFACE_HEADER_NAME", "UnityVisionOSPlugin-Swift.h");
 
 
 
