@@ -8,7 +8,7 @@ extern "C" {
     
     int _addTwoNumberInVisionOS(int a , int b) {
        
-        int result = [[UnityPlugin shared] AddTwoNumber:(a) b:(b)];
+        int result = [[UnityPlugin shared] AddTwoNumberWithA:(a) b:(b)];
         return result;
     }
 }
