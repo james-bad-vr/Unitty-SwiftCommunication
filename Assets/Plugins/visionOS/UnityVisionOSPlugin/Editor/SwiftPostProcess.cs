@@ -32,6 +32,8 @@ public static class SwiftPostProcess
 
             proj.SetBuildProperty(targetGuid, "SWIFT_OBJC_INTERFACE_HEADER_NAME", "UnityVisionOSPlugin-Swift.h");
 
+            proj.SetBuildProperty(targetGuid, "CODE_SIGN_ENTITLEMENTS", "Unity-VisionOS.entitlements");
+
 
 
             proj.AddBuildProperty(targetGuid, "LD_RUNPATH_SEARCH_PATHS", "@executable_path/Frameworks $(PROJECT_DIR)/lib/$(CONFIGURATION) $(inherited)");
@@ -44,6 +46,16 @@ public static class SwiftPostProcess
             proj.AddBuildProperty(targetGuid, "DEFINES_MODULE", "YES");
             proj.AddBuildProperty(targetGuid, "SWIFT_VERSION", "4.0");
             proj.AddBuildProperty(targetGuid, "COREML_CODEGEN_LANGUAGE", "Swift");
+
+            // Add camera usage descriptions to Info.plist
+            string plistPath = buildPath + "/Info.plist";
+            PlistDocument plist = new PlistDocument();
+            plist.ReadFromFile(plistPath);
+
+            // Add camera usage description
+            plist.root.SetString("NSCameraUsageDescription", "This app requires camera access to detect and stream video from UVC devices.");
+
+            plist.WriteToFile(plistPath);
 
 
 
