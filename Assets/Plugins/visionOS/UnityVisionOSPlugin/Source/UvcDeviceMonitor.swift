@@ -54,6 +54,26 @@ import AVFoundation
         }
     }
     
+    @objc public func refreshDevices() {
+        NSLog("UVCDeviceMonitor: Explicitly refreshing devices after permission change")
+        
+        // Re-create the discovery session to ensure we get fresh results
+        setupDiscoverySession()
+        
+        // Force an update of devices
+        updateDevices()
+        
+        // Log the current state
+        NSLog("UVCDeviceMonitor: After refresh - device count: \(devices.count)")
+        if devices.count > 0 {
+            devices.forEach { device in
+                NSLog("UVCDeviceMonitor: - \(device.localizedName) (ID: \(device.uniqueID))")
+            }
+        } else {
+            NSLog("UVCDeviceMonitor: No devices found after refresh")
+        }
+    }
+    
     private func startMonitoring() {
         NSLog("UVCDeviceMonitor: Starting monitoring timer")
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in

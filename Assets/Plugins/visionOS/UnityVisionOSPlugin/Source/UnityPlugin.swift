@@ -9,30 +9,31 @@ import AVFoundation
     override init() {
         super.init()
         NSLog("UnityPlugin: Initializing")
-        checkCameraPermissions()
+        requestCameraPermissionExplicitly()
         
         // Log UVC entitlement status
         let hasEntitlement = hasUVCDeviceAccessEntitlement()
         NSLog("UnityPlugin: Has UVC device access entitlement: \(hasEntitlement)")
     }
     
-    private func checkCameraPermissions() {
-        NSLog("UnityPlugin: Checking camera permissions")
+    private func requestCameraPermissionExplicitly() {
+        NSLog("UnityPlugin: Explicitly requesting camera permission")
         
-        switch AVCaptureDevice.authorizationStatus(for: .video) {
-        case .authorized:
-            NSLog("UnityPlugin: Camera access already authorized")
-        case .notDetermined:
-            NSLog("UnityPlugin: Camera access not determined, requesting...")
-            AVCaptureDevice.requestAccess(for: .video) { granted in
-                NSLog("UnityPlugin: Camera access \(granted ? "granted" : "denied")")
+        // First check current status
+        let currentStatus = AVCaptureDevice.authorizationStatus(for: .video)
+        NSLog("UnityPlugin: Current camera authorization status: \(currentStatus.rawValue)")
+        
+        // Always request explicitly regardless of current status
+        // This ensures the permission dialog appears if not already determined
+        AVCaptureDevice.requestAccess(for: .video) { granted in
+            NSLog("UnityPlugin: Camera access explicitly requested, result: \(granted ? "granted" : "denied")")
+            
+            if granted {
+                // Try to initialize device discovery after permission granted
+                DispatchQueue.main.async {
+                    self.deviceMonitor.refreshDevices()
+                }
             }
-        case .denied:
-            NSLog("UnityPlugin: Camera access denied")
-        case .restricted:
-            NSLog("UnityPlugin: Camera access restricted")
-        @unknown default:
-            NSLog("UnityPlugin: Unknown camera access status")
         }
     }
     
@@ -69,5 +70,9 @@ import AVFoundation
     
     @objc public func HasUVCEntitlement() -> Bool {
         return hasUVCDeviceAccessEntitlement()
+    }
+    
+    @objc public func RequestCameraPermission() -> Void {
+        requestCameraPermissionExplicitly()
     }
 }
