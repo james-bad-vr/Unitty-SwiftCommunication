@@ -8,6 +8,12 @@ public class PluginHelper : MonoBehaviour
     private static extern int _addTwoNumberInVisionOS(int a, int b);
 
     [DllImport("__Internal")]
+    private static extern void _setupDiscovery();
+
+    [DllImport("__Internal")]
+    private static extern void _startMonitoring();
+
+    [DllImport("__Internal")]
     private static extern int _getConnectedDeviceCount();
 
     [DllImport("__Internal")]

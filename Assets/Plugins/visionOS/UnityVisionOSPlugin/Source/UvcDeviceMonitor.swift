@@ -9,11 +9,11 @@ import AVFoundation
     @objc public override init() {
         super.init()
         NSLog("UVCDeviceMonitor: Initializing")
-        setupDiscoverySession()
-        startMonitoring()
+        //setupDiscoverySession()
+        //startMonitoring()
     }
     
-    private func setupDiscoverySession() {
+    public func setupDiscoverySession() {
         // Try all possible video device types to see what's available
         NSLog("UVCDeviceMonitor: Setting up discovery session")
         
@@ -74,7 +74,7 @@ import AVFoundation
         }
     }
     
-    private func startMonitoring() {
+    public func startMonitoring() {
         NSLog("UVCDeviceMonitor: Starting monitoring timer")
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
             self?.updateDevices()

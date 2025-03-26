@@ -31,7 +31,9 @@ import AVFoundation
             if granted {
                 // Try to initialize device discovery after permission granted
                 DispatchQueue.main.async {
-                    self.deviceMonitor.refreshDevices()
+                    self.deviceMonitor.setupDiscoverySession();
+                    self.deviceMonitor.startMonitoring();
+                    self.deviceMonitor.refreshDevices();
                 }
             }
         }
